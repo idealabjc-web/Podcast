@@ -17,7 +17,7 @@ export default function Praise() {
       ...E.slice(0, 3),
       { img: studioRecWebp, g: 'Broadcast Desk', b: '#1b3a2b' },
       ...E.slice(3, 7),
-      { img: loungeWebp, g: 'Green Room Lounge', b: '#172b21' },
+      { img: loungeWebp, g: 'Dr. P Studio Lounge', b: '#172b21' },
       ...E.slice(7, 11),
       { img: controlWebp, g: 'Control Booth', b: '#141a17' },
       ...E.slice(11),

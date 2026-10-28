@@ -1,4 +1,4 @@
-# The Green Room — animated podcast website (React + Vite)
+# Dr. P Podcast — animated podcast website (React + Vite)
 
 ## Run it
     npm install

@@ -1,24 +1,47 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { E } from '../data.js'
 
-// Simulated player. To use real audio: add an <audio> element and call play()/pause() where setPlaying is called.
 export function usePlayer() {
   const [cur, setCur] = useState(0)
-  const [visible, setVisible] = useState(false)
-  const [playing, setPlaying] = useState(false)
-  const [t, setT] = useState(0)
+  const [notice, setNotice] = useState(null)
+  const timerRef = useRef(null)
 
-  useEffect(() => { document.body.classList.toggle('playing', playing) }, [playing])
-  useEffect(() => {
-    if (!playing) return
-    const id = setInterval(() => setT((v) => v + 1), 1000)
-    return () => clearInterval(id)
-  }, [playing])
+  const showNotice = useCallback((info) => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    const normalized = typeof info === 'string'
+      ? { title: 'Available Soon', desc: info }
+      : info
+    setNotice(normalized)
+    timerRef.current = setTimeout(() => {
+      setNotice(null)
+    }, 4500)
+  }, [])
 
-  const play = useCallback((i) => {
-    if (playing && cur === i) { setPlaying(false); return }
-    if (cur !== i || !visible) { setCur(i); setT(0); setVisible(true) }
-    setPlaying(true)
-  }, [playing, cur, visible])
-  const toggle = useCallback(() => setPlaying((p) => !p), [])
-  return { cur, visible, playing, t, play, toggle }
+  const closeNotice = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    setNotice(null)
+  }, [])
+
+  const play = useCallback((i = 0, customMsg) => {
+    const idx = typeof i === 'number' && i >= 0 && i < E.length ? i : 0
+    setCur(idx)
+    const speaker = E[idx]?.g || 'Dr. P'
+    const title = E[idx]?.n || 'Episode'
+    showNotice({
+      title: 'Episode Available Soon',
+      speaker,
+      name: title,
+      desc: customMsg || `"${title}" with ${speaker} will be available soon! The podcast sessions are currently being recorded.`
+    })
+  }, [showNotice])
+
+  return {
+    cur,
+    notice,
+    showNotice,
+    closeNotice,
+    play,
+    playing: false,
+    visible: !!notice
+  }
 }

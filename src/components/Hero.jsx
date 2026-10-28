@@ -1,11 +1,59 @@
 import { useMemo, useEffect, useRef, useState } from 'react'
 import { E } from '../data.js'
+import studioStage from '../img/drp-studio-backdrop.jpg'
+import broadcastDesk from '../img/podcast-studio-recording.jpg'
+import studioLounge from '../img/podcast-green-room-lounge.jpg'
+import controlBooth from '../img/podcast-control-room.jpg'
+
+const HERO_SLIDES = [
+  {
+    src: studioStage,
+    alt: 'The Dr. P Main Broadcast Set with gold signature wall and luxury armchairs',
+    title: 'Main Broadcast Set',
+    tag: 'Official Stage',
+  },
+  {
+    src: broadcastDesk,
+    alt: 'Professional broadcast microphone on recording desk',
+    title: 'The Broadcast Desk',
+    tag: 'Acoustic Suite',
+  },
+  {
+    src: studioLounge,
+    alt: 'Private backstage Dr. P podcast lounge and hospitality suite',
+    title: 'Dr. P Studio Lounge',
+    tag: 'Pre-Show Suite',
+  },
+  {
+    src: controlBooth,
+    alt: 'Audio engineering mixing console booth',
+    title: 'Sound & Control Booth',
+    tag: 'Mastering Suite',
+  },
+]
+
+// Floating Studio Production Badges (Clean, no speaker photos)
+const STUDIO_CAPSULES = [
+  { icon: '🎙️', title: 'Broadcast Desk', sub: '4K Condenser Mics', pos: 'top-left', delay: '0s' },
+  { icon: '🛋️', title: 'The Main Stage', sub: 'Signature Gold Wall', pos: 'bottom-left', delay: '1.2s' },
+  { icon: '🎚️', title: 'Control Booth', sub: 'Analog Mastering Console', pos: 'top-right', delay: '0.6s' },
+  { icon: '✨', title: '17 Keynote Voices', sub: 'Unscripted Dialogue', pos: 'bottom-right', delay: '1.8s' },
+]
 
 export default function Hero({ player }) {
   const canvasRef = useRef(null)
   const heroRef = useRef(null)
+  const [currentSlide, setCurrentSlide] = useState(0)
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 })
   const [isHoveringWave, setIsHoveringWave] = useState(false)
+
+  // Auto-scrolling studio background carousel (every 4.5s)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length)
+    }, 4500)
+    return () => clearInterval(timer)
+  }, [])
 
   // Waveform bars with calculated idle wave heights and animation delays
   const bars = useMemo(() => Array.from({ length: 52 }, (_, i) => {
@@ -16,14 +64,6 @@ export default function Hero({ player }) {
       playH: 15 + Math.abs(Math.sin(i * 0.55)) * 82,
     }
   }), [])
-
-  // Floating guest spheres on the periphery
-  const floatingGuests = useMemo(() => [
-    { guest: E[0], role: 'Featured Speaker', delay: '0s', pos: 'top-left' },
-    { guest: E[4], role: 'Keynote Speaker', delay: '1.2s', pos: 'bottom-left' },
-    { guest: E[8], role: 'Special Guest', delay: '0.6s', pos: 'top-right' },
-    { guest: E[6], role: 'First-Timer Voice', delay: '1.8s', pos: 'bottom-right' },
-  ], [])
 
   const names = [...E, ...E].map((e) => (e.n === e.g ? `${e.g} ●` : `${e.n} ● ${e.g} ●`)).join(' ')
 
@@ -104,6 +144,8 @@ export default function Hero({ player }) {
     setMousePos({ x, y })
   }
 
+  const activeSlideData = HERO_SLIDES[currentSlide]
+
   return (
     <>
       <section 
@@ -112,7 +154,46 @@ export default function Hero({ player }) {
         ref={heroRef}
         onMouseMove={handleMouseMove}
       >
-        {/* Absolute Background FX Layer */}
+        {/* Cinematic Auto-Scrolling Studio Carousel (Clear Studio Visibility) */}
+        <div className="hero-backdrop" aria-hidden="true">
+          {HERO_SLIDES.map((slide, idx) => (
+            <div 
+              key={slide.title} 
+              className={`hero-slide ${idx === currentSlide ? 'is-active' : ''}`}
+            >
+              <img 
+                src={slide.src} 
+                alt={slide.alt} 
+                className="hero-backdrop-img"
+                style={{
+                  transform: `translate(${(mousePos.x - 0.5) * -18}px, ${(mousePos.y - 0.5) * -14}px) scale(1.06)`,
+                }}
+              />
+            </div>
+          ))}
+          <div className="hero-backdrop-vignette" />
+          <div className="hero-backdrop-ambient-glow" />
+
+          {/* Interactive Carousel HUD */}
+          <div className="hero-carousel-hud" onClick={(e) => e.stopPropagation()}>
+            <span className="hero-carousel-tag">
+              ● {activeSlideData.tag} · {activeSlideData.title}
+            </span>
+            <div className="hero-carousel-dots">
+              {HERO_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  className={`hero-dot ${idx === currentSlide ? 'is-active' : ''}`}
+                  onClick={() => setCurrentSlide(idx)}
+                  title={`View ${HERO_SLIDES[idx].title}`}
+                  aria-label={`Slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Absolute Background FX Layer with Floating Studio Elements */}
         <div className="hero-bg-fx" aria-hidden="true">
           <div 
             className="hero-cursor-spotlight" 
@@ -126,20 +207,19 @@ export default function Hero({ player }) {
           <div className="hero-spot-beam hero-spot-3" />
           <canvas ref={canvasRef} className="hero-canvas" />
 
+          {/* Floating Studio Production Capsules */}
           <div className="hero-floating-guests">
-            {floatingGuests.map(({ guest, role, delay, pos }) => (
+            {STUDIO_CAPSULES.map(({ icon, title, sub, pos, delay }) => (
               <div 
-                key={guest.g} 
+                key={title} 
                 className={`hero-guest-orb ${pos}`}
                 style={{ animationDelay: delay }}
               >
                 <div className="hero-orb-ring" />
-                <div className="hero-orb-avatar" style={{ background: guest.b }}>
-                  {guest.img && <img src={guest.img} alt="" loading="lazy" />}
-                </div>
+                <div className="hero-orb-icon">{icon}</div>
                 <div className="hero-orb-info">
-                  <b>{guest.g}</b>
-                  <small>{role}</small>
+                  <b>{title}</b>
+                  <small>{sub}</small>
                 </div>
               </div>
             ))}
@@ -153,67 +233,65 @@ export default function Hero({ player }) {
             <span className="hero-rec-dot" />
             <span className="hero-badge-title">ON AIR · LIVE BACKSTAGE</span>
             <span className="hero-badge-divider">|</span>
-            <span className="hero-badge-sub">14 EXCLUSIVE CONVERSATIONS</span>
+            <span className="hero-badge-sub">{E.length} EXCLUSIVE CONVERSATIONS</span>
           </div>
 
           <p className="eyebrow hero-eyebrow-animated">
             <span>A podcast about the minutes before you speak</span>
           </p>
 
-          {/* Title with Shimmer and Depth */}
-          <h1 className="d hero-title-animated">
+          {/* Signature Brand Title */}
+          <h1 className="d hero-title-animated drp-hero-title">
             <span className="l">
-              <span className="hero-shimmer-text">The Green</span>
+              <span className="hero-shimmer-text drp-hero-line1">
+                <span className="drp-name-dr">Dr.</span>
+                <span className="drp-name-p">P</span>
+              </span>
             </span>
             <span className="l">
-              <span className="hero-shimmer-text gold-text">Room</span>
+              <span className="drp-hero-line2">PODCAST</span>
             </span>
           </h1>
 
-          <p className="hero-desc">
-            Honest backstage conversations with keynote speakers, performers and first-timers — recorded in the twenty intense minutes before the stage lights come up.
-          </p>
-
           {/* Live Responsive Soundwave Visualizer */}
           <div 
-            className={`wave hero-wave-active ${player?.playing ? 'is-playing' : 'is-idle'} ${isHoveringWave ? 'is-hover' : ''}`}
+            className="wave hero-wave-active is-idle"
             onMouseEnter={() => setIsHoveringWave(true)}
             onMouseLeave={() => setIsHoveringWave(false)}
-            onClick={() => player?.play?.(0)}
-            title={player?.playing ? 'Click to pause' : 'Click to play sound'}
+            onClick={() => player?.play?.(0, "The Dr. P Podcast episodes and videos will be available soon! Recording is currently underway.")}
+            title="Episodes will be available soon"
             role="button"
             tabIndex={0}
-            aria-label={player?.playing ? 'Audio visualizer playing. Click to pause.' : 'Audio visualizer idle. Click to play.'}
+            aria-label="Episodes will be available soon. Click for status."
           >
             {bars.map((b, i) => (
               <i 
                 key={i} 
                 style={{ 
                   animationDelay: `${b.d}ms`, 
-                  height: `${player?.playing ? b.playH : b.idleH}%`,
+                  height: `${b.idleH}%`,
                 }} 
               />
             ))}
           </div>
 
-          {/* Interactive Action Buttons */}
+          {/* Primary Action Buttons */}
           <div className="hero-actions">
             <button 
-              className="btn gold btn-pulse" 
-              data-c="Play" 
-              onClick={() => player?.play?.(0)}
+              className="btn gold btn-pulse hero-video-cta" 
+              data-c="Watch Video" 
+              onClick={() => window.dispatchEvent(new CustomEvent('open-backstage-story'))}
             >
-              <span className="btn-icon">{player?.playing ? '❚❚' : '▶'}</span>
-              <span>{player?.playing ? 'Pause episode' : 'Play latest episode'}</span>
+              <span className="btn-icon">▶</span>
+              <span>Watch Studio Reel (Video)</span>
             </button>
-            {' '}&nbsp;{' '}
-            <a className="btn btn-shimmer" href="#series" data-c="Scroll">
-              <span>Meet the cast ✦</span>
-            </a>
-            {' '}&nbsp;{' '}
-            <a className="btn" href="#eps" data-c="Scroll">
-              Browse episodes ↓
-            </a>
+            <button 
+              className="btn hero-audio-cta" 
+              data-c="Play" 
+              onClick={() => player?.play?.(0, "The Dr. P Podcast audio episodes will be available soon! Recording is currently underway.")}
+            >
+              <span>Podcast Audio (Available Soon)</span>
+            </button>
           </div>
         </div>
       </section>

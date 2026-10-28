@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { E } from '../data.js'
 import bannerWebp from '../img/speakers-banner.webp'
 import bannerPng from '../img/speakers-banner.png'
 
@@ -48,7 +49,7 @@ export default function SpeakersBanner({ player }) {
             </h2>
             
             <p className="spk-banner-sub">
-              A landmark storytelling series exploring the defining moments, bold decisions, and raw backstage truths behind 14 remarkable journeys.
+              A landmark storytelling series exploring the defining moments, bold decisions, and raw backstage truths behind {E.length} remarkable journeys.
             </p>
           </div>
 
@@ -59,7 +60,7 @@ export default function SpeakersBanner({ player }) {
             role="button"
             tabIndex={0}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setLightboxOpen(true) }}
-            aria-label="Click to enlarge the Dr. P Podcast 14 Speakers Banner"
+            aria-label={`Click to enlarge the Dr. P Podcast ${E.length} Speakers Banner`}
             data-c="Enlarge"
           >
             <div className="spk-banner-sheen" />
@@ -68,7 +69,7 @@ export default function SpeakersBanner({ player }) {
               <source srcSet={bannerWebp} type="image/webp" />
               <img 
                 src={bannerPng} 
-                alt="Dr. P Podcast Series Banner featuring 14 keynote speakers on a chessboard with the golden queen" 
+                alt={`Dr. P Podcast Series Banner featuring ${E.length} keynote speakers on a chessboard with the golden queen`} 
                 loading="lazy"
                 className="spk-banner-img"
               />
@@ -77,7 +78,7 @@ export default function SpeakersBanner({ player }) {
             <div className="spk-banner-overlay">
               <div className="spk-banner-overlay-top">
                 <span className="spk-tag-glass">✦ Official Series Showcase</span>
-                <span className="spk-tag-count">14 Keynote Voices</span>
+                <span className="spk-tag-count">{E.length} Keynote Voices</span>
               </div>
               <div className="spk-banner-overlay-bottom">
                 <span className="spk-zoom-prompt">
@@ -97,25 +98,11 @@ export default function SpeakersBanner({ player }) {
           <div className="spk-banner-actions">
             <button 
               className="btn gold" 
-              data-c="Play" 
-              onClick={() => player?.play?.(0)}
-            >
-              {player?.playing ? '❚❚ Pause Episode' : '▶ Play Series Premiere'}
-            </button>
-            <button 
-              className="btn" 
               data-c="Zoom" 
               onClick={() => setLightboxOpen(true)}
             >
-              ⤢ Fullscreen Banner
+              ⤢ View High-Resolution Showcase
             </button>
-            <a 
-              className="btn" 
-              href="#eps" 
-              data-c="Scroll"
-            >
-              Browse 14 Episodes ↓
-            </a>
           </div>
         </div>
       </section>

@@ -145,8 +145,6 @@ export default function EpisodeStack({ active = 0, onChangeActive, player, onPro
             }}
           >
             {E.map((e, i) => {
-              const words = e.n.split(' ')
-              const last = words.pop()
               const no = String(i + 1).padStart(2, '0')
               const isActive = i === active
 
@@ -172,15 +170,11 @@ export default function EpisodeStack({ active = 0, onChangeActive, player, onPro
                     <div className="grain" />
                     <div className="yr">
                       {e.y}
-                      <small>Ep. {no} · The Green Room</small>
+                      <small>Ep. {no} · Dr. P Podcast</small>
                     </div>
                     <div className="ttl">
                       <small>Episode {no}</small>
-                      <h2 className="d">
-                        {words.join(' ')}
-                        {words.length > 0 && <br />}
-                        {last}
-                      </h2>
+                      <h2 className="d">{e.n}</h2>
                       <div className="meta">
                         <span>Guest</span>
                         <span>{e.g}</span>

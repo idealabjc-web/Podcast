@@ -1,13 +1,32 @@
-import { E, fmt } from '../data.js'
-
 export default function PlayerBar({ player }) {
-  const { cur, visible, playing, t, toggle } = player
-  const e = E[cur], pct = Math.min(100, (t / ((e.m || 45) * 60)) * 100)
+  const { notice, closeNotice } = player
+
   return (
-    <div id="pbar" className={visible ? 'on' : ''}>
-      <button className="pp" onClick={toggle} aria-label="Play or pause">{playing ? '❚❚' : '▶'}</button>
-      <div><b>{e.n === e.g ? e.g : `${e.n} — ${e.g}`}</b><div className="t"><i style={{ width: `${pct}%` }} /></div></div>
-      <time>{fmt(t)}</time>
+    <div 
+      id="pbar" 
+      className={`soon-bar ${notice ? 'on' : ''}`} 
+      role="status" 
+      aria-live="polite"
+    >
+      {notice && (
+        <>
+          <div className="soon-badge">
+            <span className="soon-dot" />
+            <span>AVAILABLE SOON</span>
+          </div>
+          <div className="soon-body">
+            <b>{notice.title || 'Available Soon'}</b>
+            <p>{notice.desc}</p>
+          </div>
+          <button 
+            className="soon-close" 
+            onClick={closeNotice} 
+            aria-label="Close notification"
+          >
+            ✕
+          </button>
+        </>
+      )}
     </div>
   )
 }

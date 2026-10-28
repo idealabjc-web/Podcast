@@ -4,7 +4,7 @@ import RemindButton from './RemindButton.jsx'
 const STEPS = [
   ['01', 'Apply', "Tell us your topic and one story you'd like to share. Takes 5 minutes."],
   ['02', 'Prep call', 'A short call to shape your outline. No scripts, no slides.'],
-  ['03', 'Record', 'About 40 minutes in the green room. We handle all the audio.'],
+  ['03', 'Record', 'About 40 minutes in the Dr. P studio. We handle all the audio.'],
   ['04', 'Publish', 'Your episode, clips and profile page go live, with your next sessions listed.'],
 ]
 const FAQ = [
@@ -29,7 +29,7 @@ export default function HowItWorks({ onProfile }) {
         {E.map((e, i) => (
           <button className="spc" key={e.g} data-c="Profile" onClick={() => onProfile(i)} aria-label={`Open profile of ${e.g}`}>
             <span className="spi" style={{ background: e.b }}>{e.img && <img src={e.img} alt="" loading="lazy" />}</span>
-            <b>{e.g}</b>{S[i].r && <small>{S[i].r}</small>}
+            <b>{e.g}</b>
           </button>
         ))}
       </div>
@@ -48,7 +48,7 @@ export default function HowItWorks({ onProfile }) {
       </div>
       <h2 className="hd" style={{ marginBottom: 14 }}>Good to know</h2>
       {FAQ.map(([q, a]) => <details key={q}><summary>{q}</summary><p>{a}</p></details>)}
-      <div style={{ marginTop: 34 }}><a className="btn gold" href="mailto:hello@thegreenroom.fm?subject=Guest%20application" data-c="Open">Apply to be a guest →</a></div>
+      <div style={{ marginTop: 34 }}><a className="btn gold" href="mailto:podcast@drppodcast.fm?subject=Dr.%20P%20Podcast%20Guest%20Application" data-c="Open">Apply to be a guest →</a></div>
     </div></section>
   )
 }

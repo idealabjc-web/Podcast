@@ -1,50 +1,46 @@
 import { useState } from 'react'
-import studioRecWebp from '../img/podcast-studio-recording.webp'
-import studioRecJpg from '../img/podcast-studio-recording.jpg'
+import studioMainJpg from '../img/drp-studio-backdrop.jpg'
+import studioReelVideo from '../img/drp-reel-4.mp4'
 import loungeWebp from '../img/podcast-green-room-lounge.webp'
 import loungeJpg from '../img/podcast-green-room-lounge.jpg'
-import controlWebp from '../img/podcast-control-room.webp'
-import controlJpg from '../img/podcast-control-room.jpg'
 
 const STUDIO_SPACES = [
   {
-    id: 'studio-table',
-    tag: 'Live Studio Room',
-    title: 'The Broadcast Table',
-    badge: 'Pro Broadcast Setup',
-    desc: 'Where the magic happens. High-fidelity condenser broadcast microphones and zero distractions. Recorded in acoustic-treated intimacy with warm ambient lighting.',
-    webp: studioRecWebp,
-    jpg: studioRecJpg,
-    alt: 'Professional studio broadcast microphone with shock mount in acoustic isolation studio',
-    specs: ['Broadcast Condenser Mics', 'Acoustic Isolation Booth', 'Pop-Shield Diffusion', 'Cloudlifter Preamp']
+    id: 'main-stage',
+    tag: 'Official Studio Stage',
+    title: 'The Dr. P Main Broadcast Set',
+    badge: 'Signature Live Stage',
+    desc: 'The official Dr. P Podcast broadcast stage — featuring luxury armchairs, four-camera broadcast arrays, high-definition guest monitors, and the iconic illuminated gold Dr. P wall.',
+    webp: studioMainJpg,
+    jpg: studioMainJpg,
+    video: studioReelVideo,
+    alt: 'The official Dr. P Podcast live studio stage with executive armchairs, guest video screen and illuminated gold wall',
+    specs: ['4K Multi-Camera Array', 'Illuminated Gold Signature Wall', 'Acoustic Cove Lighting', 'Live Guest Monitors']
   },
   {
-    id: 'green-room-lounge',
+    id: 'drp-studio-lounge',
     tag: 'Pre-Show Hospitality',
-    title: 'The Green Room Lounge',
+    title: 'The Dr. P Studio Lounge',
     badge: 'Speaker Prep Suite',
     desc: 'The room before the stage. Where keynote speakers, authors, and guests decompress, review talking points, and settle their nerves over espresso.',
     webp: loungeWebp,
     jpg: loungeJpg,
-    alt: 'Luxury private backstage green room lounge with walnut paneling, plush sofa and warm ambient lighting',
+    alt: 'Luxury private backstage Dr. P podcast lounge with walnut paneling, plush sofa and warm ambient lighting',
     specs: ['Executive Tufted Sofas', 'Private Hospitality Service', 'Warm Amber Lighting', 'Acoustic Sound Isolation']
-  },
-  {
-    id: 'control-booth',
-    tag: 'Audio Engineering',
-    title: 'The Control Booth',
-    badge: 'Neve Analog Console',
-    desc: 'Real-time multi-track recording and analog mastering through soundproof studio glass. Every breath, laugh, and inflection captured with pristine warmth.',
-    webp: controlWebp,
-    jpg: controlJpg,
-    alt: 'Classic Neve analog audio mixing desk with illuminated channel strips in acoustic control room',
-    specs: ['Neve Analog Console', 'Pro Tools Ultimate', 'Hardware Compression', 'Zero-Latency Monitoring']
   }
 ]
 
-export default function StudioTour() {
+export default function StudioTour({ player }) {
   const [activeSpace, setActiveSpace] = useState(0)
   const [lightboxImg, setLightboxImg] = useState(null)
+  const [isVideoMode, setIsVideoMode] = useState(false)
+
+  const handleSelectSpace = (idx) => {
+    setActiveSpace(idx)
+    setIsVideoMode(false)
+  }
+
+  const currentSpace = STUDIO_SPACES[activeSpace]
 
   return (
     <>
@@ -53,36 +49,67 @@ export default function StudioTour() {
           {/* Header */}
           <div className="studio-header">
             <span className="eyebrow" style={{ color: 'var(--gold)' }}>✦ Backstage Production Spaces</span>
-            <h2 className="hd studio-title">Inside The Green Room</h2>
+            <h2 className="hd studio-title">Inside The Dr. P Studio</h2>
             <p className="studio-sub">
-              An authentic look into the spaces where our conversations are made — from the quiet backstage lounge to the broadcast microphones and analog control booth.
+              An authentic look into the spaces where Dr. P's conversations are made — from the quiet backstage lounge to the broadcast microphones and analog control booth.
             </p>
           </div>
 
-          {/* Interactive Feature Hero Image */}
-          <div className="studio-hero-card" onClick={() => setLightboxImg(STUDIO_SPACES[activeSpace])}>
-            <div className="studio-hero-media">
-              <picture>
-                <source srcSet={STUDIO_SPACES[activeSpace].webp} type="image/webp" />
-                <img 
-                  src={STUDIO_SPACES[activeSpace].jpg} 
-                  alt={STUDIO_SPACES[activeSpace].alt}
-                  className="studio-hero-img"
-                  loading="lazy"
-                />
-              </picture>
+          {/* Interactive Feature Hero Image or Live 16:9 Video */}
+          <div className="studio-hero-card">
+            <div 
+              className="studio-hero-media" 
+              onClick={() => {
+                if (!isVideoMode) setLightboxImg(currentSpace)
+              }}
+            >
+              {isVideoMode && currentSpace.video ? (
+                <div className="studio-video-player-frame" onClick={(e) => e.stopPropagation()}>
+                  <video 
+                    src={currentSpace.video} 
+                    controls 
+                    autoPlay 
+                    playsInline 
+                    className="studio-active-video"
+                  />
+                </div>
+              ) : (
+                <picture>
+                  <source srcSet={currentSpace.webp} type="image/webp" />
+                  <img 
+                    src={currentSpace.jpg} 
+                    alt={currentSpace.alt}
+                    className="studio-hero-img"
+                    loading="lazy"
+                  />
+                </picture>
+              )}
               <div className="studio-hero-overlay" />
               <div className="studio-hero-hud">
-                <span className="studio-pill-tag">● {STUDIO_SPACES[activeSpace].tag}</span>
-                <span className="studio-zoom-cue">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <circle cx="11" cy="11" r="8" />
-                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    <line x1="11" y1="8" x2="11" y2="14" />
-                    <line x1="8" y1="11" x2="14" y2="11" />
-                  </svg>
-                  Click to enlarge photo
-                </span>
+                <span className="studio-pill-tag">● {currentSpace.tag}</span>
+                {currentSpace.video && (
+                  <button 
+                    className="studio-mode-toggle-pill"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setIsVideoMode(!isVideoMode)
+                    }}
+                    data-c="FeedToggle"
+                  >
+                    {isVideoMode ? '📸 Switch to Photo' : '▶ Watch Live Studio Feed'}
+                  </button>
+                )}
+                {!isVideoMode && (
+                  <span className="studio-zoom-cue">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                      <line x1="11" y1="8" x2="11" y2="14" />
+                      <line x1="8" y1="11" x2="14" y2="11" />
+                    </svg>
+                    Click to enlarge photo
+                  </span>
+                )}
               </div>
             </div>
 
@@ -107,7 +134,7 @@ export default function StudioTour() {
               <button
                 key={space.id}
                 className={`studio-strip-card ${idx === activeSpace ? 'is-active' : ''}`}
-                onClick={() => setActiveSpace(idx)}
+                onClick={() => handleSelectSpace(idx)}
                 role="tab"
                 aria-selected={idx === activeSpace}
                 data-c="View"
@@ -141,7 +168,7 @@ export default function StudioTour() {
           <div className="spk-lightbox-header" onClick={(e) => e.stopPropagation()}>
             <div className="spk-lightbox-info">
               <b>{lightboxImg.title}</b>
-              <span>{lightboxImg.tag} · The Green Room Studio</span>
+              <span>{lightboxImg.tag} · Dr. P Podcast Studio</span>
             </div>
             <div className="spk-lightbox-controls">
               <button 

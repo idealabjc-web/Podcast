@@ -20,7 +20,16 @@ export default function Header({ active, onSelectEpisode }) {
   }
   return (
     <header>
-      <a className="logo d" href="#top">GR.</a>
+      <a className="logo d drp-logo" href="#top" aria-label="Dr. P Podcast Home">
+        <span className="drp-logo-mark">
+          <span className="drp-logo-dr">Dr.</span>
+          <span className="drp-logo-p">P</span>
+        </span>
+        <span className="drp-logo-badge">
+          <span className="drp-logo-dot" />
+          <span>PODCAST</span>
+        </span>
+      </a>
       <div className="hr">
         <div className="tab">
           <button data-c="Open" onClick={() => setDd(!dd)} aria-expanded={dd}>

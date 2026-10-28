@@ -17,11 +17,35 @@ export default function ProfilePanel({ index, onClose, onNav, player }) {
   const i = last.current, e = E[i], s = S[i], first = [e.f || e.g.split(' ')[0]]
   const initials = e.g.replace(/^Dr\.\s*/, '').split(' ').filter(Boolean).slice(0, 2).map((w) => w[0]).join('')
   const role = [s.r, s.o].filter(Boolean).join(' · ')
+  const scrollPos = useRef(0)
+  const wasOpen = useRef(false)
+
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    if (open && panel.current) panel.current.scrollTop = 0
-    return () => { document.body.style.overflow = '' }
-  }, [open, index])
+    if (open) {
+      if (!wasOpen.current) {
+        scrollPos.current = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0
+        wasOpen.current = true
+      }
+      document.body.style.overflow = 'hidden'
+      if (panel.current) panel.current.scrollTop = 0
+    } else {
+      if (wasOpen.current) {
+        wasOpen.current = false
+        document.body.style.overflow = ''
+        const targetY = scrollPos.current
+        window.scrollTo({ top: targetY, left: 0, behavior: 'instant' })
+        requestAnimationFrame(() => {
+          window.scrollTo({ top: targetY, left: 0, behavior: 'instant' })
+        })
+      }
+    }
+  }, [open])
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [])
 
   return (
     <>
