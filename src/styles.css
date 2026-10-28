@@ -802,7 +802,8 @@ header>*{pointer-events:auto}
 
 /* marquee */
 .mq{border-block:1px solid var(--line);overflow:hidden;padding:18px 0;white-space:nowrap}
-.mq div{display:inline-flex;gap:40px;animation:mq 30s linear infinite;font:700 1.4rem var(--serif);text-transform:uppercase;color:var(--dim)}
+.mq div{display:inline-flex;gap:40px;animation:mq 320s linear infinite;will-change:transform;font:700 1.4rem var(--serif);text-transform:uppercase;color:var(--dim)}
+.mq:hover div{animation-play-state:paused}
 .mq em{color:var(--gold);font-style:normal}
 @keyframes mq{to{transform:translateX(-50%)}}
 /* episodes vertical carousel */
