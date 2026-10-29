@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { E } from '../data.js'
 
-export default function EpisodeStack({ active = 0, onChangeActive, player, onProfile }) {
+export default function EpisodeStack({ active = 0, onChangeActive, player, onProfile, onOpenCallSheet }) {
   const [touchStartY, setTouchStartY] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const [dragOffsetY, setDragOffsetY] = useState(0)
@@ -100,7 +100,18 @@ export default function EpisodeStack({ active = 0, onChangeActive, player, onPro
           <h3 className="ep-ctrl-title">{E[active].g}</h3>
         </div>
 
-        <div className="ep-autoplay-badge">
+        <div className="ep-autoplay-badge" style={{ gap: '10px', flexWrap: 'wrap' }}>
+          {onOpenCallSheet && (
+            <button
+              type="button"
+              className="ep-callsheet-cta"
+              onClick={onOpenCallSheet}
+              title="Open full Call Sheet / Season One page"
+            >
+              <span>✦ Call Sheet / Season 1</span>
+              <i>→</i>
+            </button>
+          )}
           <button
             className={`ep-autoplay-toggle ${autoplay ? 'is-active' : ''}`}
             onClick={() => setAutoplay((prev) => !prev)}

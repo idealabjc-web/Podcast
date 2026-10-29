@@ -1,8 +1,5 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
-import { E, P } from '../data.js'
-import studioRecWebp from '../img/podcast-studio-recording.webp'
-import loungeWebp from '../img/podcast-green-room-lounge.webp'
-import controlWebp from '../img/podcast-control-room.webp'
+import { useEffect, useRef, useState } from 'react'
+import { P } from '../data.js'
 
 export default function Praise() {
   const [i, setI] = useState(0)
@@ -12,26 +9,9 @@ export default function Praise() {
     return () => clearInterval(id)
   }, [])
 
-  const tiles = useMemo(() => {
-    const list = [
-      ...E.slice(0, 3),
-      { img: studioRecWebp, g: 'Broadcast Desk', b: '#1b3a2b' },
-      ...E.slice(3, 7),
-      { img: loungeWebp, g: 'Dr. P Studio Lounge', b: '#172b21' },
-      ...E.slice(7, 11),
-      { img: controlWebp, g: 'Control Booth', b: '#141a17' },
-      ...E.slice(11),
-    ]
-    return [...list, ...list]
-  }, [])
-
   return (
     <section className="dark" id="praise">
-      <span className="tick">Behind the mic &amp; in the studio</span>
-      <div className="gal"><div className="gt">
-        {tiles.map((e, k) => <i key={k} style={{ background: e.b }}>{e.img && <img src={e.img} alt={e.g} loading="lazy" />}<em>{e.g}</em></i>)}
-      </div></div>
-      <span className="tick" style={{ marginTop: 110 }}>Listener notes</span>
+      <span className="tick">Listener notes</span>
       <div className="stage" onMouseEnter={() => (hold.current = true)} onMouseLeave={() => (hold.current = false)}>
         <div className="track" style={{ '--i': i }}>
           {P.map(([q, w], k) => (

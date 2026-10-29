@@ -1,18 +1,31 @@
-import { useInView } from '../hooks/useInView.js'
-
 export default function Footer() {
-  const [ref, on] = useInView()
   return (
-    <footer className={`wm ${on ? 'in' : ''}`} id="join" ref={ref}>
-      <div className="wr">
-        <div className="wl"><span>Dr. P</span></div>
-        <div className="wl"><span>Podcast Live</span></div>
-        <div className="wl"><span>Backstage</span></div>
+    <footer className="site-footer" id="footer" aria-label="Site Footer">
+      <div className="wrap site-footer-inner">
+        <div className="site-footer-brand">
+          <span className="site-footer-logo">Dr. P Podcast</span>
+          <p className="site-footer-tagline">
+            Backstage conversations before the stage lights. Unscripted, unhurried, unfiltered.
+          </p>
+        </div>
+        <div className="site-footer-links">
+          <div className="site-footer-col">
+            <span className="mono site-footer-heading">Listen</span>
+            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer">Spotify</a>
+            <a href="https://podcasts.apple.com" target="_blank" rel="noopener noreferrer">Apple Podcasts</a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a>
+          </div>
+          <div className="site-footer-col">
+            <span className="mono site-footer-heading">Contact &amp; Studio</span>
+            <a href="mailto:podcast@drppodcast.fm">podcast@drppodcast.fm</a>
+            <span>Recorded at Dr. P Studio</span>
+            <span>Season 01 · 2026</span>
+          </div>
+        </div>
       </div>
-      <div className="cols">
-        <div>Get new episodes first<input placeholder="Enter your email" aria-label="Email" /></div>
-        <div>Listen<a href="#latest">Apple Podcasts</a><a href="#latest">Spotify</a><a href="#latest">YouTube</a></div>
-        <div>Contact<a href="mailto:podcast@drppodcast.fm">podcast@drppodcast.fm</a></div>
+      <div className="site-footer-bottom wrap">
+        <span className="mono">© {new Date().getFullYear()} Dr. P Podcast · All rights reserved</span>
+        <span className="mono">Recorded in the wings before the house opens</span>
       </div>
     </footer>
   )
