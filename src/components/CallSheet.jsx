@@ -140,6 +140,7 @@ export default function CallSheet({
                 <span className="n">{num}</span>
                 <div className="ep-title-col">
                   <h4>{e.n}</h4>
+                  <span className="ep-guest-mobile">with {e.g} {e.m ? `· ${e.m} min` : ''}</span>
                   {isPage && e.c && <small className="ep-topic-sub mono">{e.c}</small>}
                 </div>
                 <span className="g">with {e.g}</span>

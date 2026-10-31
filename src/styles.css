@@ -6669,6 +6669,281 @@ div.sh p {
   z-index: 2;
 }
 
+/* ========================================================
+   UNIVERSAL MOBILE & MULTI-DEVICE RESPONSIVENESS OVERRIDES
+   ======================================================== */
+
+/* Global horizontal overflow prevention */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* In Call Sheet: guest name displayed under title on mobile/tablet */
+.ep-guest-mobile {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .ep-guest-mobile {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--bulb);
+    opacity: 0.95;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+}
+
+/* Episode Stack Carousel Action Buttons */
+.acts {
+  position: absolute;
+  right: 28px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+}
+
+.acts .explore {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  display: inline-flex;
+}
+
+/* Navigation & Header responsiveness on mobile (< 680px) */
+@media (max-width: 680px) {
+  header {
+    padding: 10px 14px;
+  }
+
+  .tab {
+    display: none;
+  }
+
+  .drp-logo {
+    font-size: 20px;
+    gap: 6px;
+  }
+
+  .drp-logo-badge {
+    font-size: 7.5px;
+    padding: 2px 6px;
+    letter-spacing: 0.12em;
+  }
+
+  .burger {
+    width: 42px;
+    height: 42px;
+    border-radius: 9px;
+  }
+
+  .nav {
+    top: 56px;
+    right: 0;
+    width: min(290px, calc(100vw - 28px));
+    max-height: calc(100vh - 72px);
+    overflow-y: auto;
+    padding: 14px 16px;
+  }
+
+  .nav a {
+    font-size: 20px;
+  }
+}
+
+/* Hero Section on Mobile */
+@media (max-width: 640px) {
+  .hero-banner-section {
+    padding: 62px 0 24px;
+  }
+
+  .hero-banner-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .hero-banner-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 0.9rem;
+  }
+
+  .spk-banner-frame {
+    border-radius: 14px;
+    margin-bottom: 22px;
+  }
+
+  .spk-tag-glass,
+  .spk-tag-count {
+    font-size: 0.65rem;
+    padding: 4px 10px;
+  }
+}
+
+/* Episode Stack Carousel on Mobile */
+@media (max-width: 760px) {
+  .carousel-viewport.vertical {
+    height: clamp(520px, 80vh, 660px);
+    min-height: 500px;
+  }
+
+  .por {
+    right: 50% !important;
+    top: 68px !important;
+    height: 38% !important;
+    max-height: 220px;
+    transform: translateX(50%) !important;
+  }
+
+  .ttl {
+    left: 16px !important;
+    bottom: 64px !important;
+    max-width: calc(100% - 32px) !important;
+  }
+
+  .ttl h2 {
+    font-size: clamp(1.35rem, 5vw, 1.95rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  .ttl .meta {
+    margin-top: 8px;
+    gap: 2px 14px;
+    font-size: 0.72rem;
+  }
+
+  .acts {
+    right: 16px;
+    bottom: 16px;
+    gap: 8px;
+  }
+
+  .acts .explore span {
+    padding: 7px 11px;
+    font-size: 0.65rem;
+  }
+
+  .acts .explore i {
+    padding: 7px 9px;
+    font-size: 0.65rem;
+  }
+
+  .ep-v-rail {
+    right: 8px;
+    padding: 8px 4px;
+    gap: 8px;
+  }
+
+  .ep-v-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .ep-v-bar {
+    height: 48px;
+  }
+}
+
+/* Call Sheet on Mobile */
+@media (max-width: 768px) {
+  .ep {
+    grid-template-columns: 32px minmax(0, 1fr) 38px;
+    gap: 10px;
+    padding: 14px 4px;
+  }
+
+  .ep h4 {
+    font-size: clamp(1.05rem, 3.8vw, 1.4rem);
+    line-height: 1.25;
+  }
+
+  .ep .n {
+    font-size: 0.85rem;
+  }
+
+  .ep .go {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Studio Section Reels on Mobile */
+@media (max-width: 560px) {
+  .reels {
+    gap: 10px;
+  }
+
+  .rl {
+    border-radius: 16px;
+  }
+
+  .rl span {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    font-size: clamp(0.82rem, 3.2vw, 1rem);
+    line-height: 1.18;
+  }
+
+  .rl small {
+    font-size: 0.54rem;
+    margin-bottom: 2px;
+  }
+}
+
+/* How It Works & Speaker Directory on Mobile */
+@media (max-width: 560px) {
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .sess {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .sess time {
+    font-size: 0.62rem;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 440px) {
+  .speakers-arched-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .spk-arch-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .spk-arch-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
 
 
 
