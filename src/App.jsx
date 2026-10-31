@@ -16,7 +16,6 @@ import Footer from './components/Footer.jsx'
 import PlayerBar from './components/PlayerBar.jsx'
 import ProfilePanel from './components/ProfilePanel.jsx'
 import OscarIntro from './components/OscarIntro.jsx'
-import BackstageStoryPill from './components/BackstageStoryPill.jsx'
 
 const PATH_TO_PAGE = {
   '/': 'home',
@@ -149,7 +148,6 @@ export default function App() {
 
         <Footer />
       </main>
-      <BackstageStoryPill />
       <ProfilePanel
         index={profile}
         onClose={() => setProfile(null)}
