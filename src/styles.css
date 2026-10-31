@@ -3041,10 +3041,10 @@ details p {
 .spk-banner-frame {
   position: relative;
   width: 100%;
-  max-width: 1360px;
+  max-width: 1500px;
   border-radius: 20px;
   overflow: hidden;
-  margin: 0 auto 20px;
+  margin: 0 auto 14px;
   cursor: pointer;
   background: #090e0b;
   border: 1.5px solid rgba(227, 190, 108, 0.4);
@@ -6593,10 +6593,26 @@ div.sh p {
    ======================================================== */
 .hero-banner-section {
   position: relative;
-  padding: clamp(64px, 8vh, 84px) 0 32px;
+  padding: calc(70px + env(safe-area-inset-top, 0px)) 0 24px;
+  min-height: calc(100svh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: var(--ink);
   overflow: hidden;
   text-align: center;
+  box-sizing: border-box;
+}
+
+.hero-banner-section .wrap {
+  width: 100%;
+  max-width: 1540px;
+  padding-inline: clamp(10px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-banner-glow {
@@ -6653,8 +6669,8 @@ div.sh p {
 }
 
 .hero-banner-card {
-  margin: 0 auto 20px;
-  max-width: 1360px;
+  margin: 0 auto 14px;
+  max-width: 1500px;
   width: 100%;
   position: relative;
   z-index: 2;
@@ -6662,23 +6678,25 @@ div.sh p {
 
 .hero-banner-actions {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  margin-top: 4px;
+  margin-bottom: 12px;
   position: relative;
   z-index: 2;
 }
 
 .hero-banner-actions .btn {
-  padding: 8px 18px;
-  font-size: 0.8rem;
+  padding: 7px 18px;
+  font-size: 0.78rem;
   letter-spacing: 0.04em;
   border-radius: 999px;
   width: auto;
   min-height: unset;
   gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
 /* ========================================================
@@ -6775,37 +6793,73 @@ body {
   }
 }
 
-/* Hero Section on Mobile */
+/* Hero Section on Mobile - Fill Screen with Large Banner & Small Buttons */
 @media (max-width: 640px) {
   .hero-banner-section {
-    padding: 60px 0 18px;
+    padding-top: calc(54px + env(safe-area-inset-top, 0px));
+    padding-bottom: 14px;
+    min-height: unset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-banner-section .wrap {
+    padding-inline: 6px !important;
+  }
+
+  .hero-banner-card {
+    margin: 0 auto 10px;
+    width: 100%;
+  }
+
+  .spk-banner-frame {
+    border-radius: 12px;
+    margin-bottom: 0;
+    border-width: 1px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.9), 0 0 24px rgba(227, 190, 108, 0.25);
+  }
+
+  .spk-banner-pic {
+    aspect-ratio: 16 / 7.2;
+    width: 100%;
+  }
+
+  .spk-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+  }
+
+  .spk-tag-count {
+    font-size: 0.58rem;
+    padding: 3px 8px;
   }
 
   .hero-banner-actions {
     flex-direction: row;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
+    margin-top: 10px;
+    margin-bottom: 4px;
   }
 
   .hero-banner-actions .btn {
     width: auto;
-    flex: 1 1 auto;
-    max-width: 210px;
-    padding: 8px 12px;
-    font-size: 0.72rem;
+    flex: 0 1 auto;
+    max-width: 175px;
+    padding: 6px 11px !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.02em;
     justify-content: center;
     border-radius: 999px;
+    white-space: nowrap;
   }
 
-  .spk-banner-frame {
-    border-radius: 14px;
-    margin-bottom: 16px;
-  }
-
-  .spk-tag-count {
+  .hero-banner-actions .btn .btn-icon {
     font-size: 0.65rem;
-    padding: 4px 10px;
   }
 }
 
