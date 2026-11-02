@@ -94,7 +94,7 @@ export default function Hero({ player, onNavigate }) {
           onClick={() => setLightboxOpen(false)}
           role="dialog"
           aria-modal="true"
-          aria-label="Enlarged Dr. P Podcast Series Banner"
+          aria-labelledby="spk-lightbox-heading"
         >
           <div className="spk-lightbox-backdrop" />
 
@@ -102,7 +102,7 @@ export default function Hero({ player, onNavigate }) {
             type="button"
             className="spk-lightbox-close"
             onClick={() => setLightboxOpen(false)}
-            aria-label="Close lightbox (Esc)"
+            aria-label="Close lightbox"
           >
             ✕ Close
           </button>
@@ -113,7 +113,7 @@ export default function Hero({ player, onNavigate }) {
           >
             <div className="spk-lightbox-toolbar">
               <div className="spk-lightbox-meta">
-                <b>Dr. P Podcast · Official Series Banner</b>
+                <b id="spk-lightbox-heading">Dr. P Podcast · Official Series Banner</b>
                 <span>{E.length} Keynote Voices · High Resolution Lineup</span>
               </div>
               <div className="spk-lightbox-btns">
